@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var exphbs  = require('express-handlebars');
-var methodOverride = require('method-override')
+var methodOverride = require('method-override');
 var session = require('express-session');
 var flash = require('connect-flash');
 var bodyParser = require('body-parser');
@@ -9,10 +9,13 @@ var passport = require('passport');
 var mongoose = require('mongoose');
 var db = require('./helper/database');
 
+//load routes
 var games = require('./routes/games');
 var users = require('./routes/users');
 
+//load passport
 require('./config/passport')(passport);
+
 
 //connect to mongoose
 mongoose.connect(db.mongoURI ,{
@@ -24,13 +27,12 @@ mongoose.connect(db.mongoURI ,{
     console.log(err);
 });
 
-//load game model
-//require('./models/Game');
-//var Game = mongoose.model('games');
+var Game = mongoose.model('games');
 
 //require method override
 app.use(methodOverride('_method'));
 
+//this code sets up template engine as express handlebars
 app.engine('handlebars', exphbs({defaultLayout:'main'}));
 app.set('view engine', 'handlebars');
 
@@ -72,6 +74,18 @@ app.get('/', function(req, res){
 
 app.get('/about', function(req, res){
     res.render('about');
+});
+
+app.get('/data', function(req, res){
+   // res.render('data');
+    Game.find().then(function(games){
+     console.log("Fetch Route ");
+    console.log(games);
+
+    res.render('data', {
+         games:games
+     });
+    });
 });
 
 //use our routes

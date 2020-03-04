@@ -1,0 +1,20 @@
+<div class="jumbotron">
+    <h1 class="display-3">Game Library Data</h1>
+    <p class="lead">Here it is!</p>
+    <p class="blockquote-footer">Version 0.0.1</p>
+</div>
+
+{{#each games}}
+
+<div class="card card-body">
+   
+    <h4>{{title}}</h4>
+    <p>{{price}}</p>
+    <p>{{description}}</p>
+    
+</div>
+
+{{else}}
+<p>No Game Entries Found</p>
+{{/each}}
+
